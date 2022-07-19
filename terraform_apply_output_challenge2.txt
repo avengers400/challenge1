@@ -1,0 +1,1010 @@
+PS E:\aws\terraform notes\tech_challenge_1> terraform apply -auto-approve
+aws_vpc.testvpc: Refreshing state... [id=vpc-0e8110a6f7bd1f076]
+aws_subnet.public_subnet: Refreshing state... [id=subnet-03089541bd8cb9949]
+aws_internet_gateway.testigw: Refreshing state... [id=igw-0de465ad1048f21b9]
+aws_lb_target_group.elb_tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a]     
+aws_subnet.private_subnet: Refreshing state... [id=subnet-0b64e6d5d7bdd5aaf]
+aws_security_group.frontend_sg: Refreshing state... [id=sg-0505ca2eb5f10acb0]
+aws_route_table.routetable: Refreshing state... [id=rtb-07d4d23c1f58f7d47]
+aws_route_table_association.pub_route_association: Refreshing state... [id=rtbassoc-0c743261ef07c546b]
+aws_security_group.backend_sg: Refreshing state... [id=sg-06d51510c8fd31faf]
+aws_route_table_association.private_route_association: Refreshing state... [id=rtbassoc-0245ae16e1524a15e]
+aws_db_subnet_group.testing: Refreshing state... [id=testing]
+aws_lb.elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:loadbalancer/app/frontend-LB/4995b4bcf4eaf7c4]
+aws_lb_listener.external-elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:listener/app/frontend-LB/4995b4bcf4eaf7c4/a75aa077771ea15e]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # aws_security_group.frontend_sg has been changed
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 8080
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 8080
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 80
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may   
+include actions to undo or respond to these changes.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:       
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.default will be created
+  + resource "aws_db_instance" "default" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 5
+      + apply_immediately                     = (known after apply)
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_name                               = (known after apply)
+      + db_subnet_group_name                  = "testing"
+      + delete_automated_backups              = true
+      + endpoint                              = (known after apply)
+      + engine                                = "postgres"
+      + engine_version                        = "13.1-R1"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = (known after apply)
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = (known after apply)
+      + name                                  = (known after apply)
+      + nchar_character_set_name              = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = false
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_type                          = (known after apply)
+      + tags_all                              = (known after apply)
+      + timezone                              = (known after apply)
+      + username                              = "test"
+      + vpc_security_group_ids                = [
+          + "sg-06d51510c8fd31faf",
+        ]
+    }
+
+  # aws_instance.frontend will be created
+  + resource "aws_instance" "frontend" {
+      + ami                                  = "ami-02d1e544b84bf7502"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = "us-east-1a"
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + subnet_id                            = "subnet-03089541bd8cb9949"
+      + tags                                 = {
+          + "Name" = "frontend"
+        }
+      + tags_all                             = {
+          + "Name" = "frontend"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = [
+          + "sg-0505ca2eb5f10acb0",
+        ]
+
+      + capacity_reservation_specification {
+          + capacity_reservation_preference = (known after apply)
+
+          + capacity_reservation_target {
+              + capacity_reservation_id                 = (known after apply)
+              + capacity_reservation_resource_group_arn = (known after apply)
+            }
+        }
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + maintenance_options {
+          + auto_recovery = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+          + instance_metadata_tags      = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_card_index    = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + private_dns_name_options {
+          + enable_resource_name_dns_a_record    = (known after apply)
+          + enable_resource_name_dns_aaaa_record = (known after apply)
+          + hostname_type                        = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group_attachment.elb_tg will be created
+  + resource "aws_lb_target_group_attachment" "elb_tg" {
+      + id               = (known after apply)
+      + port             = 80
+      + target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a"
+      + target_id        = (known after apply)
+    }
+
+  # aws_security_group.frontend_sg will be updated in-place
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 8080
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 8080
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Plan: 3 to add, 1 to change, 0 to destroy.
+aws_db_instance.default: Creating...
+aws_security_group.frontend_sg: Modifying... [id=sg-0505ca2eb5f10acb0]
+aws_instance.frontend: Creating...
+╷
+│ Error: creating EC2 Instance: InvalidAMIID.NotFound: The image id '[ami-02d1e544b84bf7502]' does not exist
+│       status code: 400, request id: b27c5ecb-6583-4bb4-98dc-644038f959aa
+│
+│   with aws_instance.frontend,
+│   on main.tf line 128, in resource "aws_instance" "frontend":
+│  128: resource "aws_instance" "frontend" {
+│
+╵
+╷
+│ Error: Error creating DB Instance: InvalidParameterCombination: Cannot find version 13.1-r1 for postgres
+│       status code: 400, request id: 2c13e7aa-42fa-44e9-8e20-ed80ececa89d
+│
+│   with aws_db_instance.default,
+│   on main.tf line 258, in resource "aws_db_instance" "default":
+│  258: resource "aws_db_instance" "default" {
+│
+╵
+PS E:\aws\terraform notes\tech_challenge_1> terraform apply -auto-approve
+aws_vpc.testvpc: Refreshing state... [id=vpc-0e8110a6f7bd1f076]
+aws_internet_gateway.testigw: Refreshing state... [id=igw-0de465ad1048f21b9]
+aws_subnet.private_subnet: Refreshing state... [id=subnet-0b64e6d5d7bdd5aaf]
+aws_lb_target_group.elb_tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a]     
+aws_subnet.public_subnet: Refreshing state... [id=subnet-03089541bd8cb9949]
+aws_security_group.frontend_sg: Refreshing state... [id=sg-0505ca2eb5f10acb0]
+aws_route_table.routetable: Refreshing state... [id=rtb-07d4d23c1f58f7d47]
+aws_db_subnet_group.testing: Refreshing state... [id=testing]
+aws_route_table_association.pub_route_association: Refreshing state... [id=rtbassoc-0c743261ef07c546b]
+aws_route_table_association.private_route_association: Refreshing state... [id=rtbassoc-0245ae16e1524a15e]
+aws_lb.elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:loadbalancer/app/frontend-LB/4995b4bcf4eaf7c4]
+aws_security_group.backend_sg: Refreshing state... [id=sg-06d51510c8fd31faf]
+aws_lb_listener.external-elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:listener/app/frontend-LB/4995b4bcf4eaf7c4/a75aa077771ea15e]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # aws_security_group.frontend_sg has been changed
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 8080
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 8080
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 80
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may   
+include actions to undo or respond to these changes.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:       
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.default will be created
+  + resource "aws_db_instance" "default" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 5
+      + apply_immediately                     = (known after apply)
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_name                               = (known after apply)
+      + db_subnet_group_name                  = "testing"
+      + delete_automated_backups              = true
+      + endpoint                              = (known after apply)
+      + engine                                = "postgres"
+      + engine_version                        = "10.17"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = (known after apply)
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = (known after apply)
+      + name                                  = (known after apply)
+      + nchar_character_set_name              = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = false
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_type                          = (known after apply)
+      + tags_all                              = (known after apply)
+      + timezone                              = (known after apply)
+      + username                              = "test"
+      + vpc_security_group_ids                = [
+          + "sg-06d51510c8fd31faf",
+        ]
+    }
+
+  # aws_instance.frontend will be created
+  + resource "aws_instance" "frontend" {
+      + ami                                  = "ami-02d1e544b84bf7502"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = "us-east-1a"
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + subnet_id                            = "subnet-03089541bd8cb9949"
+      + tags                                 = {
+          + "Name" = "frontend"
+        }
+      + tags_all                             = {
+          + "Name" = "frontend"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = [
+          + "sg-0505ca2eb5f10acb0",
+        ]
+
+      + capacity_reservation_specification {
+          + capacity_reservation_preference = (known after apply)
+
+          + capacity_reservation_target {
+              + capacity_reservation_id                 = (known after apply)
+              + capacity_reservation_resource_group_arn = (known after apply)
+            }
+        }
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + maintenance_options {
+          + auto_recovery = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+          + instance_metadata_tags      = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_card_index    = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + private_dns_name_options {
+          + enable_resource_name_dns_a_record    = (known after apply)
+          + enable_resource_name_dns_aaaa_record = (known after apply)
+          + hostname_type                        = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group_attachment.elb_tg will be created
+  + resource "aws_lb_target_group_attachment" "elb_tg" {
+      + id               = (known after apply)
+      + port             = 80
+      + target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a"
+      + target_id        = (known after apply)
+    }
+
+  # aws_security_group.frontend_sg will be updated in-place
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 8080
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 8080
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Plan: 3 to add, 1 to change, 0 to destroy.
+aws_db_instance.default: Creating...
+aws_security_group.frontend_sg: Modifying... [id=sg-0505ca2eb5f10acb0]
+aws_security_group.frontend_sg: Modifications complete after 0s [id=sg-0505ca2eb5f10acb0]
+aws_instance.frontend: Creating...
+╷
+│ Error: creating EC2 Instance: InvalidAMIID.NotFound: The image id '[ami-02d1e544b84bf7502]' does not exist
+│       status code: 400, request id: e903cde9-fa1d-4a9a-9bcd-0610fad535b7
+│
+│   with aws_instance.frontend,
+│   on main.tf line 128, in resource "aws_instance" "frontend":
+│  128: resource "aws_instance" "frontend" {
+│
+╵
+╷
+│ Error: Error creating DB Instance: InvalidParameterValue: The parameter MasterUserPassword is not a valid password because it is shorter than 8 characters.
+│       status code: 400, request id: fb30bb45-d929-4b98-ab00-01a866b9cf8e, {
+│   AllocatedStorage: 5,
+│   AutoMinorVersionUpgrade: true,
+│   BackupRetentionPeriod: 0,
+│   CopyTagsToSnapshot: false,
+│   DBInstanceClass: "db.t3.micro",
+│   DBInstanceIdentifier: "terraform-20220719154016557400000001",
+│   DBSubnetGroupName: "testing",
+│   DeletionProtection: false,
+│   Engine: "postgres",
+│   EngineVersion: "10.17",
+│   MasterUserPassword: "********",
+│   MasterUsername: "test",
+│   PubliclyAccessible: false,
+│   StorageEncrypted: false,
+│   Tags: [],
+│   VpcSecurityGroupIds: ["sg-06d51510c8fd31faf"]
+│ }
+│
+│   with aws_db_instance.default,
+│   on main.tf line 258, in resource "aws_db_instance" "default":
+│  258: resource "aws_db_instance" "default" {
+│
+╵
+PS E:\aws\terraform notes\tech_challenge_1> ^C
+PS E:\aws\terraform notes\tech_challenge_1> ^C
+PS E:\aws\terraform notes\tech_challenge_1> terraform apply -auto-approve
+aws_vpc.testvpc: Refreshing state... [id=vpc-0e8110a6f7bd1f076]
+aws_internet_gateway.testigw: Refreshing state... [id=igw-0de465ad1048f21b9]
+aws_subnet.public_subnet: Refreshing state... [id=subnet-03089541bd8cb9949]
+aws_lb_target_group.elb_tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a]     
+aws_subnet.private_subnet: Refreshing state... [id=subnet-0b64e6d5d7bdd5aaf]
+aws_security_group.frontend_sg: Refreshing state... [id=sg-0505ca2eb5f10acb0]
+aws_route_table.routetable: Refreshing state... [id=rtb-07d4d23c1f58f7d47]
+aws_db_subnet_group.testing: Refreshing state... [id=testing]
+aws_route_table_association.pub_route_association: Refreshing state... [id=rtbassoc-0c743261ef07c546b]
+aws_route_table_association.private_route_association: Refreshing state... [id=rtbassoc-0245ae16e1524a15e]
+aws_lb.elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:loadbalancer/app/frontend-LB/4995b4bcf4eaf7c4]
+aws_security_group.backend_sg: Refreshing state... [id=sg-06d51510c8fd31faf]
+aws_lb_listener.external-elb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:675523930231:listener/app/frontend-LB/4995b4bcf4eaf7c4/a75aa077771ea15e]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # aws_security_group.frontend_sg has been changed
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 8080
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 8080
+            },
+          - {
+              - cidr_blocks      = []
+              - description      = ""
+              - from_port        = 80
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may   
+include actions to undo or respond to these changes.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:       
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.default will be created
+  + resource "aws_db_instance" "default" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 5
+      + apply_immediately                     = (known after apply)
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_name                               = (known after apply)
+      + db_subnet_group_name                  = "testing"
+      + delete_automated_backups              = true
+      + endpoint                              = (known after apply)
+      + engine                                = "postgres"
+      + engine_version                        = "10.17"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = (known after apply)
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = (known after apply)
+      + name                                  = (known after apply)
+      + nchar_character_set_name              = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = false
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_type                          = (known after apply)
+      + tags_all                              = (known after apply)
+      + timezone                              = (known after apply)
+      + username                              = "test"
+      + vpc_security_group_ids                = [
+          + "sg-06d51510c8fd31faf",
+        ]
+    }
+
+  # aws_instance.frontend will be created
+  + resource "aws_instance" "frontend" {
+      + ami                                  = "ami-02d1e544b84bf7502"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = "us-east-1a"
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + subnet_id                            = "subnet-03089541bd8cb9949"
+      + tags                                 = {
+          + "Name" = "frontend"
+        }
+      + tags_all                             = {
+          + "Name" = "frontend"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = [
+          + "sg-0505ca2eb5f10acb0",
+        ]
+
+      + capacity_reservation_specification {
+          + capacity_reservation_preference = (known after apply)
+
+          + capacity_reservation_target {
+              + capacity_reservation_id                 = (known after apply)
+              + capacity_reservation_resource_group_arn = (known after apply)
+            }
+        }
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + maintenance_options {
+          + auto_recovery = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+          + instance_metadata_tags      = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_card_index    = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + private_dns_name_options {
+          + enable_resource_name_dns_a_record    = (known after apply)
+          + enable_resource_name_dns_aaaa_record = (known after apply)
+          + hostname_type                        = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_lb_target_group_attachment.elb_tg will be created
+  + resource "aws_lb_target_group_attachment" "elb_tg" {
+      + id               = (known after apply)
+      + port             = 80
+      + target_group_arn = "arn:aws:elasticloadbalancing:us-east-1:675523930231:targetgroup/ELB-TG/305c412b113c6e4a"
+      + target_id        = (known after apply)
+    }
+
+  # aws_security_group.frontend_sg will be updated in-place
+  ~ resource "aws_security_group" "frontend_sg" {
+        id                     = "sg-0505ca2eb5f10acb0"
+      ~ ingress                = [
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 8080
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 8080
+            },
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 80
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 80
+            },
+        ]
+        name                   = "frontend-SG"
+        tags                   = {
+            "Name" = "frontend-SG"
+        }
+        # (7 unchanged attributes hidden)
+    }
+
+Plan: 3 to add, 1 to change, 0 to destroy.
+aws_db_instance.default: Creating...
+aws_security_group.frontend_sg: Modifying... [id=sg-0505ca2eb5f10acb0]
+aws_security_group.frontend_sg: Modifications complete after 2s [id=sg-0505ca2eb5f10acb0]
+aws_instance.frontend: Creating...
+aws_db_instance.default: Still creating... [10s elapsed]
+aws_db_instance.default: Still creating... [20s elapsed]
+aws_db_instance.default: Still creating... [30s elapsed]
+aws_db_instance.default: Still creating... [40s elapsed]
+aws_db_instance.default: Still creating... [50s elapsed]
+aws_db_instance.default: Still creating... [1m0s elapsed]
+aws_db_instance.default: Still creating... [1m10s elapsed]
+aws_db_instance.default: Still creating... [1m20s elapsed]
+aws_db_instance.default: Still creating... [1m30s elapsed]
+aws_db_instance.default: Still creating... [1m40s elapsed]
+aws_db_instance.default: Still creating... [1m50s elapsed]
+aws_db_instance.default: Still creating... [2m0s elapsed]
+aws_db_instance.default: Still creating... [2m10s elapsed]
+aws_db_instance.default: Still creating... [2m20s elapsed]
+aws_db_instance.default: Still creating... [2m30s elapsed]
+aws_db_instance.default: Still creating... [2m40s elapsed]
+aws_db_instance.default: Still creating... [2m50s elapsed]
+aws_db_instance.default: Still creating... [3m0s elapsed]
+aws_db_instance.default: Creation complete after 3m1s [id=terraform-20220719154156115400000001]
+╷
+│ Error: creating EC2 Instance: InvalidAMIID.NotFound: The image id '[ami-02d1e544b84bf7502]' does not exist
+│       status code: 400, request id: 2d26f7a3-57f7-4a49-a7d9-55a5deea2a31
+│
+│   with aws_instance.frontend,
+│   on main.tf line 128, in resource "aws_instance" "frontend":
+│  128: resource "aws_instance" "frontend" {
+│
+╵
+PS E:\aws\terraform notes\tech_challenge_1> 
